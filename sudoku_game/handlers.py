@@ -1,8 +1,6 @@
 import numpy as np
 from sudoku_game import generators
 
-NUMBERS = np.arange(1, 10)
-
 
 class Handler:
 

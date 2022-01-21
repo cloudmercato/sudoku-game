@@ -1,5 +1,14 @@
+from multiprocessing import Pool
 import numpy as np
 from random import sample
+
+
+def remove(x, removed=1):
+    """Remove a random numbers from a grid"""
+    for i in range(removed):
+        v = np.random.randint(81)
+        x[v] = 0
+
 
 class Generator:
     def generate_solution(self, flatten=False):
@@ -28,11 +37,16 @@ class Generator:
             return solution.flatten()
         return solution
 
-    def generate_solutions(self, number, flatten=True):
-        return (
-            self.generate_solution(flatten=True)
-            for i in range(number)
-        )
+    def generate_solutions(self, number, flatten=True, processes=4):
+        with Pool(processes=processes) as pool:
+            results = [
+                pool.apply_async(
+                    func=self.generate_solution,
+                    kwds={'flatten': True},
+                )
+                for i in np.arange(number)
+            ]
+            return [r.get() for r in results]
 
     def generate_grid(self, remove=0):
         solution = self.generate_solution()
