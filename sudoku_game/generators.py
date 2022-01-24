@@ -22,11 +22,11 @@ class Generator:
         def shuffle(s):
             return sample(s, len(s))
 
-        rBase = range(base)
-        rows = [g*base+r for g in shuffle(rBase)
-                for r in shuffle(rBase)]
-        cols = [g*base+c for g in shuffle(rBase)
-                for c in shuffle(rBase)]
+        r_base = range(base)
+        rows = [g*base+r for g in shuffle(r_base)
+                for r in shuffle(r_base)]
+        cols = [g*base+c for g in shuffle(r_base)
+                for c in shuffle(r_base)]
         nums = shuffle(range(1, base*base+1))
 
         solution = np.array([
@@ -49,6 +49,9 @@ class Generator:
             return [r.get() for r in results]
 
     def generate_grid(self, remove=0):
+        if not hasattr(remove, '__getitem__'):
+            remove = [remove, remove+1]
+
         solution = self.generate_solution()
         grid = solution.copy()
         for i in range(remove):
