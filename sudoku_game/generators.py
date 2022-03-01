@@ -54,7 +54,7 @@ class Generator:
 
         solution = self.generate_solution()
         grid = solution.copy()
-        for i in range(remove):
+        for i in range(max(remove)):
             x = np.random.choice(np.arange(9))
             y = np.random.choice(np.arange(9))
             grid[x, y] = 0
